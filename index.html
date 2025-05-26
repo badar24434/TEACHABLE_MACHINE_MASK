@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mask Detection</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/rps-game.css">
+  <meta name="description" content="Mask detection using Teachable Machine">
+
+  <meta property="og:title" content="Mask Detection">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:alt" content="Mask Detection App">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Face Mask Detection System</h1>
+    <p>This application uses AI to detect if you're wearing a mask. If you are, you'll get a positive message. If not, your unmasked image will be shown with a warning.</p>
+
+    <button id="enableCam" class="btn">Enable Webcam</button>
+    <div id="webcam-status" class="info"></div>
+
+    <div class="webcam-container">
+      <div id="webcam-wrapper">
+        <canvas id="canvas" width="400" height="300"></canvas>
+        <video id="webcam" autoplay playsinline></video>
+      </div>
+    </div>
+
+    <div class="status-section">
+      <h2>Current Status: <span id="current-gesture">Waiting for webcam...</span></h2>
+
+      <div class="detection-results">
+        <div class="progress-label">Mask:</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="rock-progress"></div>
+        </div>
+        <div id="rock-probability">0%</div>
+
+        <div class="progress-label">No Mask:</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="paper-progress"></div>
+        </div>
+        <div id="paper-probability">0%</div>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <h3>How to use:</h3>
+      <ol>
+        <li>Click the "Enable Webcam" button and allow camera access</li>
+        <li>Position yourself in front of the camera</li>
+        <li>The system will detect if you're wearing a mask</li>
+        <li>If you wear a mask, you'll see a "GOOD JOB!" message</li>
+        <li>If you're not wearing a mask, a warning will appear</li>
+      </ol>
+    </div>
+
+    <div class="about">
+      <h3>About this application</h3>
+      <p>This mask detection system uses a machine learning model trained with Teachable Machine by Google. It helps promote mask-wearing and provides immediate feedback.</p>
+      <p><strong>Note:</strong> This application does not store or transmit images of users. All processing is done locally in your browser.</p>
+    </div>
+
+    <div class="credits">
+      <p>Powered by <a href="https://teachablemachine.withgoogle.com/" target="_blank">Teachable Machine</a></p>
+    </div>
+  </div>
+
+  <!-- TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+  <!-- Teachable Machine model -->
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>
