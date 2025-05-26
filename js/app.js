@@ -1,4 +1,4 @@
-// Constants for the app - You'll need to replace this URL with your mask detection model
+// Constants for the app ,need to replace this URL with the mask detection model
 const URL = 'https://teachablemachine.withgoogle.com/models/ITkJZxu0G/';
 const modelURL = URL + 'model.json';
 const metadataURL = URL + 'metadata.json';
