@@ -21,6 +21,26 @@
 
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#fafafa">
+  
+  <style>
+    .container {
+      position: relative;
+    }
+    .detection-results {
+      margin-bottom: 30px;
+    }
+    .warning-info {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .warning-info h4 {
+      color: #856404;
+      margin-top: 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -56,6 +76,11 @@
       </div>
     </div>
 
+    <div class="warning-info">
+      <h4>⚠️ Warning</h4>
+      <p>When someone is detected without a mask, their image will be displayed prominently with a warning message to raise awareness about mask-wearing.</p>
+    </div>
+
     <div class="instructions">
       <h3>How to use:</h3>
       <ol>
@@ -63,7 +88,7 @@
         <li>Position yourself in front of the camera</li>
         <li>The system will detect if you're wearing a mask</li>
         <li>If you wear a mask, you'll see a "GOOD JOB!" message</li>
-        <li>If you're not wearing a mask, a warning will appear</li>
+        <li>If you're not wearing a mask, a warning will appear with your image</li>
       </ol>
     </div>
 

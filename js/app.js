@@ -10,6 +10,11 @@ let model, webcam, canvas, ctx, labelContainer, maxPredictions;
 let lastMaskStatus = null; // Track last mask status to avoid unnecessary UI updates
 let goodJobAnimationActive = false; // Track if the "Good Job" animation is currently playing
 
+// Add variables to track high-confidence no mask detection
+let highConfidenceNoMaskStartTime = 0;
+let isTrackingHighConfidenceNoMask = false;
+const HIGH_CONFIDENCE_THRESHOLD = 0.95; // 95% confidence threshold
+
 // DOM elements
 const enableCamButton = document.getElementById('enableCam');
 const webCamElement = document.getElementById('webcam');
@@ -26,13 +31,16 @@ warningElement.id = 'mask-warning';
 warningElement.innerHTML = 'THIS USER IS NOT WEARING MASK<br>PLEASE BE AWARE';
 warningElement.style.display = 'none';
 warningElement.style.position = 'absolute';
-warningElement.style.bottom = '10px';
-warningElement.style.right = '10px';
-warningElement.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+warningElement.style.bottom = '20px';
+warningElement.style.right = '20px';
+warningElement.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
 warningElement.style.color = 'white';
-warningElement.style.padding = '10px';
+warningElement.style.padding = '15px';
 warningElement.style.borderRadius = '5px';
 warningElement.style.fontWeight = 'bold';
+warningElement.style.fontSize = '24px'; // Increased font size
+warningElement.style.textAlign = 'center';
+warningElement.style.zIndex = '999';
 document.body.appendChild(warningElement);
 
 // Thumbnail for unmasked users
@@ -40,17 +48,18 @@ const unmaskThumbnail = document.createElement('div');
 unmaskThumbnail.id = 'unmask-thumbnail';
 unmaskThumbnail.style.display = 'none';
 unmaskThumbnail.style.position = 'absolute';
-unmaskThumbnail.style.bottom = '90px';
-unmaskThumbnail.style.right = '10px';
-unmaskThumbnail.style.width = '100px';
-unmaskThumbnail.style.height = '100px';
-unmaskThumbnail.style.border = '2px solid red';
+unmaskThumbnail.style.bottom = '110px';
+unmaskThumbnail.style.right = '20px';
+unmaskThumbnail.style.width = '200px'; // Increased size
+unmaskThumbnail.style.height = '200px'; // Increased size
+unmaskThumbnail.style.border = '3px solid red';
 unmaskThumbnail.style.overflow = 'hidden';
+unmaskThumbnail.style.zIndex = '999';
 document.body.appendChild(unmaskThumbnail);
 
 const thumbnailCanvas = document.createElement('canvas');
-thumbnailCanvas.width = 100;
-thumbnailCanvas.height = 100;
+thumbnailCanvas.width = 200; // Match new size
+thumbnailCanvas.height = 200; // Match new size
 unmaskThumbnail.appendChild(thumbnailCanvas);
 const thumbnailCtx = thumbnailCanvas.getContext('2d');
 
@@ -255,6 +264,18 @@ async function predict() {
       console.log(prediction.className + ": " + probability);
     }
     
+    // Track high-confidence no mask detection without counting
+    if (noMaskProb >= HIGH_CONFIDENCE_THRESHOLD) {
+      if (!isTrackingHighConfidenceNoMask) {
+        // Start tracking
+        highConfidenceNoMaskStartTime = Date.now();
+        isTrackingHighConfidenceNoMask = true;
+      }
+    } else {
+      // Reset tracking if confidence drops below threshold
+      isTrackingHighConfidenceNoMask = false;
+    }
+    
     // Determine current mask status (using threshold)
     const currentMaskStatus = maskProb > 0.7 ? 'mask' : noMaskProb > 0.7 ? 'no mask' : 'uncertain';
     
@@ -268,6 +289,9 @@ async function predict() {
         currentStatusElement.style.color = '#4CAF50'; // Green
         hideWarningAndThumbnail();
         showGoodJobAnimation();
+        
+        // Reset high-confidence tracking
+        isTrackingHighConfidenceNoMask = false;
       } 
       else if (currentMaskStatus === 'no mask') {
         currentStatusElement.textContent = "No Mask Detected";
@@ -280,6 +304,9 @@ async function predict() {
         currentStatusElement.style.color = '#ff9800'; // Orange
         hideWarningAndThumbnail();
         hideGoodJobAnimation();
+        
+        // Reset high-confidence tracking
+        isTrackingHighConfidenceNoMask = false;
       }
     }
   } catch (error) {
@@ -298,11 +325,26 @@ function updatePredictionUI(progressBar, probabilityElement, percentage) {
 // Function to show warning and thumbnail for unmasked users
 function showWarningAndThumbnail() {
   // Update thumbnail with current webcam frame
-  thumbnailCtx.drawImage(webcam.canvas, 0, 0, 100, 100);
+  thumbnailCtx.drawImage(webcam.canvas, 0, 0, 200, 200);
   
   // Show warning and thumbnail
   warningElement.style.display = 'block';
   unmaskThumbnail.style.display = 'block';
+  
+  // Add a pulsing animation to the warning
+  warningElement.style.animation = 'pulse 1s infinite';
+  if (!document.querySelector('#warning-animation')) {
+    const style = document.createElement('style');
+    style.id = 'warning-animation';
+    style.textContent = `
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
 
 // Function to hide warning and thumbnail
