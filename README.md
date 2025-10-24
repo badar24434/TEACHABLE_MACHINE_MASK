@@ -188,17 +188,11 @@ This project includes `LICENSE.txt` with the MIT License. See `LICENSE.txt` for 
 
 ## Contact
 
-- Repository: https://github.com/badar24434/TEACHABLE_MACHINE_MASK
-- Author: [Add author name here]
-- Email: [Add author email here]
-- Website / Social: [Add links here]
+- Repository: [https://github.com/badar24434/TEACHABLE_MACHINE_MASK](https://github.com/badar24434/TEACHABLE_MACHINE_MASK)
+- Author: **Muhamad Badar Miqdad bin Md Nasir**
+- Email: **badarmiqdad45@gmail.com**
+- Website / Social: [LinkedIn]([https://www.linkedin.com/in/badar-miqdad](https://www.linkedin.com/in/muhamad-badar-miqdad-bin-md-nasir-9404282b8/)) | [GitHub](https://github.com/badar24434)
+
 
 ---
 
-If you want, I can:
-
-- Update `package.json` author/name/license fields.
-- Change `js/app.js` default to use the local `my_model` by default.
-- Add a small `CONTRIBUTING.md` or `LICENSE` file copy in a different format.
-
-Please tell me which of the above you'd like next.
