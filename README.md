@@ -155,26 +155,6 @@ Request: { timestamp, label, probability, imageBase64? }
 Response: { success: true }
 ```
 
-## Contributing
-
-Contributions are welcome! Suggested workflow:
-
-1. Fork the repository.
-2. Create a branch: `git checkout -b feat/your-feature`.
-3. Make changes and add tests if applicable.
-4. Commit and push: `git push origin feat/your-feature`.
-5. Open a Pull Request describing your changes and how to test them.
-
-Please include in PRs:
-- Short description of the change.
-- How to run/test locally.
-- Any privacy/security impacts (especially if capturing or storing images).
-
-Small improvements you could add:
-- Switch the default to the local `my_model` (if you want an offline demo).
-- Add a CONTRIBUTING.md and issue/pr templates.
-- Provide a small test harness or E2E test to validate webcam flow (if adding CI).
-
 ## License
 
 This project includes `LICENSE.txt` with the MIT License. See `LICENSE.txt` for the full text.
